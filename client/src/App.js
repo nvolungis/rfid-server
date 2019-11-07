@@ -7,6 +7,9 @@ function App() {
   const [, lastMessage, readyState] = useWebSocket(socketUrl);
   const [cardId, setCardId] = useState();
 
+  console.log(readyState);
+  console.log(lastMessage);
+
   useEffect(() => {
     if (lastMessage !== null) {
       setCardId(lastMessage.data);
