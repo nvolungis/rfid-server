@@ -27,13 +27,10 @@ function App() {
     }
   }, [ lastMessage, setCardId ]);
 
+  console.log(cardId);
+
   return (
     <div className="App">
-      <h1>what up</h1>
-      <button onClick={() => setHashedId('a3q7357e6f')}>
-        change
-      </button>
-      {cardId && <span>cardId: {cardId}</span>}
       {hashedId ? (
         <WistiaEmbed hashedId={hashedId} />
       ) : (
