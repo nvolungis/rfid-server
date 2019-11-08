@@ -6,7 +6,7 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 
 //  ls /dev/cu.*
-const serialPort = new SerialPort('/dev/cu.usbmodem14111', {baudRate: 9600});
+const serialPort = new SerialPort('/dev/cu.usbmodem1411', {baudRate: 9600});
 
 const parser = new Readline()
 serialPort.pipe(parser)
