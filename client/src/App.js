@@ -4,7 +4,7 @@ import WistiaEmbed from './WistiaEmbed';
 import './App.css';
 
 function App() {
-  const socketUrl = 'ws://10.0.0.34:4000';
+  const socketUrl = 'ws://localhost:4000';
   const [, lastMessage, readyState] = useWebSocket(socketUrl);
   const [cardId, setCardId] = useState();
   const [hashedId, setHashedId] = useState();
