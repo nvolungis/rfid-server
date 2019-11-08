@@ -3,22 +3,22 @@ import useScript from './useScript';
 
 const WistiaEmbed = ({ hashedId, onEnd = () => {} }) => {
   const url = 'https://fast.wistia.com/assets/external/E-v1.js'
+  const lastHashedId = usePrevious(hashedId);
   const [loaded, error] = useScript(url);
   const swatchRef = useRef();
   const handle = useRef();
 
   useEffect(() => {
     if (handle.current) {
-      handle.current.replaceWith(hashedId);
+      if (lastHashedId !== hashedId) {
+        handle.current.replaceWith(hashedId);
+      }
     } else {
       window._wq = window._wq || [];
       window._wq.push({
         id: hashedId,
         onReady: h => {
           handle.current = h;
-          h.bind('end', () => {
-            onEnd();
-          });
         },
       });
     }
@@ -83,3 +83,10 @@ const WistiaEmbed = ({ hashedId, onEnd = () => {} }) => {
 
 export default WistiaEmbed;
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
