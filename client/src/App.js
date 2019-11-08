@@ -3,11 +3,15 @@ import useWebSocket from 'react-use-websocket';
 import WistiaEmbed from './WistiaEmbed';
 import './App.css';
 
+const idleHashedId = 'c1crb8wbj4';
+
 function App() {
   const socketUrl = 'ws://localhost:4000';
   const [, lastMessage, readyState] = useWebSocket(socketUrl);
   const [cardId, setCardId] = useState();
   const [hashedId, setHashedId] = useState();
+
+  console.log('hashed', hashedId);
 
   const cardMap = {
     '701991537684': 'a3q7357e6f',
@@ -18,7 +22,7 @@ function App() {
   }
 
   useEffect(() => {
-    setHashedId(cardMap[cardId]);
+    setHashedId(cardMap[cardId] || idleHashedId);
   }, [cardId]);
 
   useEffect(() => {
@@ -27,12 +31,13 @@ function App() {
     }
   }, [ lastMessage, setCardId ]);
 
-  console.log(cardId);
-
   return (
     <div className="App">
       {hashedId ? (
-        <WistiaEmbed hashedId={hashedId} />
+        <WistiaEmbed hashedId={hashedId} onEnd={() => {
+          console.log('onEnd');
+          setCardId('');
+        }}/>
       ) : (
         <div>pick a vid!</div>
       )}

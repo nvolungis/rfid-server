@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import useScript from './useScript';
 
-const WistiaEmbed = ({ hashedId }) => {
+const WistiaEmbed = ({ hashedId, onEnd = () => {} }) => {
   const url = 'https://fast.wistia.com/assets/external/E-v1.js'
   const [loaded, error] = useScript(url);
   const swatchRef = useRef();
@@ -14,10 +14,15 @@ const WistiaEmbed = ({ hashedId }) => {
       window._wq = window._wq || [];
       window._wq.push({
         id: hashedId,
-        onReady: h => handle.current = h,
+        onReady: h => {
+          handle.current = h;
+          h.bind('end', () => {
+            onEnd();
+          });
+        },
       });
     }
-  }, [hashedId]);
+  }, [hashedId, onEnd]);
 
   return (
     <div
